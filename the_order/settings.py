@@ -123,9 +123,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 #Donde guardara los archivos que suban los usuarios
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = "/media/"
 
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 #Raices del directorio de cosas estaticos, como imagenes, css y js
 STATIC_URL = '/static/'

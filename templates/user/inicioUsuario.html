@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extrahead %}
+<style>
+    .margin-top {
+        margin-top: 40px;
+    }
+</style>
+{% endblock %}
+{% block title %}Inicio{% endblock %}
+{% block content %}
+
+
+<div class="row margin-top">
+    <h2>Inicio sesion correctamente</h2>
+
+    <div class="col offset-md-2">
+
+        <figure>
+            <figcaption>Sus Restaurantes</figcaption>
+            {% if restaurantes %}
+            <ul class="list-group list-group-item-primary">
+                {% for restaurante in restaurantes %}
+                {{ restaurante.nombre }}
+                <a href="{% url 'restaurante:inicioRestaurante' pk=restaurante.id %}">
+                    <img src="{{ restaurante.logo.url }}" class="rounded" width="300">
+                </a>
+                
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </figure>
+
+    </div>
+    <div class = "col-md-5">
+        <a class="btn btn-block btn-lg btn-success" href="{% url 'restaurante:crearRestaurante' %}">Crea un restaurante nuevo</a>
+    </div>
+
+
+</div>
+
+{% endblock %}
