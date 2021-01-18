@@ -33,7 +33,7 @@
     <div class="col ">
         <figure>
             <figcaption>Menu disponible</figcaption>
-            <a href="#">
+            <a href="{% url 'restaurante:listarProducto' pk=restaurante.id %}">
                 <img src="{% static 'images/prestamo.png' %}" class="rounded-circle" width="180" , height="180">
             </a>
         </figure>
@@ -41,7 +41,7 @@
     <div class="col">
         <figure>
             <figcaption>Añadir Producto</figcaption>
-            <a href="#">
+            <a href="{% url 'restaurante:crearProducto' pk=restaurante.id %}">
                 <img src="{% static 'images/prestamo.png' %}" class="rounded-circle" width="180" , height="180">
             </a>
         </figure>

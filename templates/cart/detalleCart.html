@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extrahead %}
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<style>
+    .space-top {
+        margin-top: 70px;
+    }
+</style>
+{% endblock %}
+{% block title %}Detalle del Pedido{% endblock %}
+{% block content %}
+
+{% if cart %}
+
+{% for item in cart %}
+<div class="container">
+    <div class="row space-top">
+        <div class="col-sm-8">
+            <h4>
+                <a href="#">
+                    {{ item.product.nombre }}
+                </a>
+            </h4>
+            
+        </div>
+        <div class="col-sm-8">
+            <h4>
+                <a href="#">
+                    {{ item.product.descripcion }}
+                </a>
+            </h4>
+            <i>Precio unitario: {{ item.price }} $COP</i>
+            <i>Precio total: {{ item.total_price }} $COP</i>
+        </div>
+
+        
+    </div>
+</div>
+
+
+
+{% endfor %}
+<div class="col">
+    <a type="button" class="btn btn-danger" href="{% url 'restaurante:listarProducto' pk=restaurante %}">Seguir Pidiendo</a>
+</div>
+{% else %}
+<h1>No existen registros de cuentas</h1>
+{% endif %}
+
+
+{% endblock %}

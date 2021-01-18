@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extrahead %}
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<style>
+    .space-top {
+        margin-top: 70px;
+    }
+</style>
+{% endblock %}
+{% block title %}Listar Cuentas{% endblock %}
+{% block content %}
+
+{% if object_list %}
+
+{% for item in object_list %}
+<div class="container">
+    <div class="row space-top">
+        <div class="col-sm-8">
+            <h4>
+                <a href="#">
+                    {{ item.nombre }}
+                </a>
+            </h4>
+            
+        </div>
+        <div class="col-sm-8">
+            <h4>
+                <a href="#">
+                    {{ item.descripcion }}
+                </a>
+            </h4>
+            <i>Precio: {{ item.precio }} $COP</i>
+        </div>
+        <div class= "col" >
+            <form action="{% url 'cart:cart_add' item.id %}" method="post">{% csrf_token %}
+                {{form_cart.as_p}}
+    
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Añadir al carrito" />
+                </div>
+            </form>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+{% endfor %}
+
+{% else %}
+<h1>No existen registros de cuentas</h1>
+{% endif %}
+
+
+{% endblock %}
