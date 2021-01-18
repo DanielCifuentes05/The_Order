@@ -37,4 +37,5 @@ def cart_detail(request , pk):
                 'cantidad': item['quantity'],
                 'update': True
             })
-    return render(request, 'cart/detalleCart.html', {'cart': cart , 'restaurante' : pk})
+    totalpedido = cart.get_total_price()
+    return render(request, 'cart/detalleCart.html', {'cart': cart , 'restaurante' : pk , 'totalpedido' : totalpedido})

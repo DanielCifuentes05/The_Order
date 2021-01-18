@@ -1,5 +1,5 @@
 from django import forms 
-from .models import Restaurante , Producto
+from .models import Restaurante , Producto , Orden
 
 class RestauranteForm(forms.ModelForm):
     class Meta:
@@ -18,4 +18,13 @@ class ProductoForm(forms.ModelForm):
             'descripcion',
             'precio',
 
+        ]
+
+class OrdenForm(forms.ModelForm):
+    class Meta:
+        model= Orden
+        fields= [
+            'nombre',
+            'empaque',
+            'observaciones'
         ]

@@ -2,9 +2,11 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, DetailView, UpdateView , CreateView , ListView
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponse, FileResponse
-from .forms import RestauranteForm , ProductoForm
-from .models import Restaurante, Producto
+from .forms import RestauranteForm , ProductoForm , OrdenForm
+from .models import Restaurante, Producto , Orden , ItemOrden
 from cart.forms import CartAddProductForm
+from cart.cart import Cart
+
 # Create your views here.
 
 class RestauranteCreate(CreateView):
@@ -80,3 +82,60 @@ class ProductoList(ListView):
         
         return Producto.objects.filter(restaurante = restaurante)
     
+
+
+class OrdenCreate(CreateView):
+    model = Orden
+    template_name = "orden/crearOrden.html"
+    form_class = OrdenForm
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet all the transactions
+        cart = Cart(self.request)
+        context['cart'] = cart
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        form = OrdenForm(request.POST)
+        print(form.is_valid())
+        if form.is_valid():
+
+            cart = Cart(request)
+            orden = form.save()
+            restaurante = Restaurante.objects.get(id = self.kwargs['pk'])
+            orden.restaurante = restaurante
+            orden.valor = cart.get_total_price()
+            orden.save()
+
+            for item in cart:
+                ItemOrden.objects.create(producto = item['product'], 
+                                         orden = orden,
+                                         valor = item['price'],
+                                         cantidad = item['quantity'],
+                                         valor_total = item['total_price'])
+
+            cart.clear()
+
+
+            return HttpResponseRedirect(reverse_lazy("restaurante:doneOrde" , kwargs={'pk': self.kwargs['pk']}))
+        else:
+            for field in form:
+                for error in field.errors:
+                    print(error)
+            return self.render_to_response(self.get_context_data(form = form))
+
+class DoneOrden(TemplateView):
+    template_name = "orden/doneOrden.html"
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet all the transactions
+
+        restaurante = Restaurante.objects.get(id = self.kwargs['pk'])
+        context['restaurante'] = restaurante
+
+        return context

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block extrahead %}
+{% load static %}
+<script src="{% static 'js/validacionFormulario.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+<style>
+    .marginb {
+        margin-bottom: 10%;
+    }
+    .hola{
+        height: 80VH;
+    }
+</style>
+{% endblock %}
+{% block title %}Pedido enviado{% endblock %}
+{% block content %}
+<div class = "container hola">
+<div class="row justify-content-md-center marginb">
+    <p class="h1 text-info">Se ha enviado tu pedido</p>
+</div>
+<div class="row align-items-center">
+    <p class="h4">
+        Te avisaremos cuando este listo tu pedido.
+    </p>
+
+    <div class=" row space-top m-5">
+        <a type="button" class="btn btn-danger" href="{% url 'restaurante:listarProducto' pk=restaurante.id %}">Volver al carrito</a>
+    </div>
+</div>
+</div>
+
+{% endblock %}

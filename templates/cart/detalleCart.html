@@ -34,6 +34,9 @@
             <i>Precio unitario: {{ item.price }} $COP</i>
             <i>Precio total: {{ item.total_price }} $COP</i>
         </div>
+        <div class="col">
+            <a type="button" class="btn btn-danger" href="{% url 'cart:cart_remove' item.product.id %}">Eliminar producto</a>
+        </div>
 
         
     </div>
@@ -42,8 +45,17 @@
 
 
 {% endfor %}
-<div class="col">
-    <a type="button" class="btn btn-danger" href="{% url 'restaurante:listarProducto' pk=restaurante %}">Seguir Pidiendo</a>
+<div class="col m-2">
+    <h3>Total Pedido: {{ totalpedido }} $COP</h3>
+</div>
+<div class="row " style="margin-left: 30px;">
+    <div class=" row space-top m-5">
+        <a type="button" class="btn btn-danger" href="{% url 'restaurante:listarProducto' pk=restaurante %}">Seguir Pidiendo</a>
+    </div>
+    <div class=" row space-top m-5">
+        <a type="button" class="btn btn-danger" href="{% url 'restaurante:crearOrden' pk=restaurante %}">Confirmar Pedido</a>
+    </div>
+    
 </div>
 {% else %}
 <h1>No existen registros de cuentas</h1>
