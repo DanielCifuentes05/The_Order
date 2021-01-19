@@ -10,7 +10,7 @@
  pytz==2020.5
  sqlparse==0.4.1
  
- Recomendable ejecutar con entorno virutal
+ Recomendable ejecutar con entorno virtual
  
  Pasos para ejecutar el aplicativo:
  Paso 1 : Estar ubicado en la carpeta raiz del proyecto
