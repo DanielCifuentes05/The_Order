@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render , redirect, get_object_or_404
 from django.views.generic import TemplateView, DetailView, UpdateView , CreateView , ListView
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponse, FileResponse
@@ -83,7 +83,7 @@ class ProductoList(ListView):
         return Producto.objects.filter(restaurante = restaurante)
     
 
-
+### CREACIÓN DE ORDEN
 class OrdenCreate(CreateView):
     model = Orden
     template_name = "orden/crearOrden.html"
@@ -95,6 +95,7 @@ class OrdenCreate(CreateView):
         # Add in a QuerySet all the transactions
         cart = Cart(self.request)
         context['cart'] = cart
+        context['valor_total'] = cart.get_total_price()
         return context
 
     def post(self, request, *args, **kwargs):
@@ -139,3 +140,32 @@ class DoneOrden(TemplateView):
         context['restaurante'] = restaurante
 
         return context
+
+
+### ADMINISTRACION DE ORDENES
+
+
+class OrdenList(ListView):
+    model = Orden
+    template_name = 'orden/listarOrden.html'
+
+   
+    def get_queryset(self):
+        restaurante = Restaurante.objects.get(id = self.kwargs['pk'])
+        
+        return Orden.objects.filter(restaurante = restaurante).exclude(status = 'REDY')
+    
+def orden_status_update(request, orden_id):
+    
+    orden = Orden.objects.get(id=orden_id)
+    if orden.status == "ESPR":
+        orden.status = 'PREP'
+        orden.save()
+        return redirect('restaurante:listarOrden' , pk = orden.restaurante.id )
+
+    elif orden.status == "PREP":
+        orden.status = 'REDY'
+        orden.save()
+        return redirect('restaurante:listarOrden' , pk = orden.restaurante.id )
+
+    

@@ -14,36 +14,39 @@
     }
 </style>
 {% endblock %}
-{% block title %}Crear Usuario{% endblock %}
+{% block title %}Crear Orden{% endblock %}
 {% block content %}
-
 <div class="row">
-
-    <div class="col-md-5 offset-md-1">
-        <form method="POST" enctype="multipart/form-data">{% csrf_token %}
-
-           {{form.as_p}}
-
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Aceptar" />
-            </div>
-
-        </form>
+    <div class="col pl-4">
+        <h4 class="margin-bottom p-3">Confirma tu pedido</h4>
+        <div class="col-md-7 offset-md-1">
+            <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+    
+               {{form.as_p}}
+    
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Aceptar" />
+                </div>
+    
+            </form>
+        </div>
     </div>
-</div>
-<div class ="row">
-    <div class="col-md-5 offset-md-1">
-        <h3>Resumen Pedido</h3>
-        {% for item in cart %}
-        <i>Nombre: {{ item.product.nombre }} |  Cantidad: {{ item.quantity }} | Valor Total : {{ item.total_price }}</i>
-        
+    <div class ="col">
+        <div class="col offset-md-1">
+            <h3>Resumen Pedido</h3>
+            {% for item in cart %}
+            <ul>
+                <li>Producto: {{ item.product.nombre }} |  Cantidad: {{ item.quantity }} | Valor Total : {{ item.total_price }} $COP</li>
+            </ul>
+            {% endfor %}
+            <h2>Precio total : {{valor_total }} $COP</h2>
+        </div>
 
-        {% endfor %}
-    </div>
+    </div> 
 </div>
 
 
-</div>
+
 {% if form.errors %}
 {% for field in form %}
 {% for error in field.errors %}

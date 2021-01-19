@@ -5,39 +5,83 @@
 <style>
     .margin-top {
         margin-top: 40px;
+           
+    }
+    .container{
+        display: flex;
+        align-items: start;
+    }
+    .center-h {
+        justify-content: center;
+    }
+    .center-v {
+        align-items: center;}
+
+
+    .rounded{
+        display: block; 
+        margin-left: auto; 
+        margin-right: auto; 
+        padding-bottom: 30px;
+        
+    }
+    
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        display: block;
+        font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-weight: 700;
+        margin-left: auto; 
+        margin-right: auto;
+    }
+
+    .list-group{
+        border-color: black;
+    }
+
+    li{
+        list-style:none;
     }
 </style>
 {% endblock %}
 {% block title %}Inicio{% endblock %}
 {% block content %}
 
+<div class="container center-h ">
+    <h1 style="float: center;">Bienvenido {{user.username}}</h1>
+</div>
+<div class="container center-h ">
+    
 
-<div class="row margin-top">
-    <h2>Inicio sesion correctamente</h2>
-
-    <div class="col offset-md-2">
+    <div class="col-md-5 margin-top">
 
         <figure>
-            <figcaption>Sus Restaurantes</figcaption>
+            <h2>Sus Restaurantes</h2>
             {% if restaurantes %}
-            <ul class="list-group list-group-item-primary">
+            <ul class="list-group " >
                 {% for restaurante in restaurantes %}
-                {{ restaurante.nombre }}
-                <a href="{% url 'restaurante:inicioRestaurante' pk=restaurante.id %}">
-                    <img src="{{ restaurante.logo.url }}" class="rounded" width="300">
-                </a>
+                <li style="border: 2px solid black; border-radius: 10px;"">
+                    <h4>{{ restaurante.nombre }}</h4>
                 
+                    <a href="{% url 'restaurante:inicioRestaurante' pk=restaurante.id %}">
+                        <img src="{{ restaurante.logo.url }}" class="rounded" width="300"   >
+                    </a>
+                </li>
                 {% endfor %}
             </ul>
             {% endif %}
         </figure>
 
     </div>
-    <div class = "col-md-5">
-        <a class="btn btn-block btn-lg btn-success" href="{% url 'restaurante:crearRestaurante' %}">Crea un restaurante nuevo</a>
-    </div>
 
 
+
+</div>
+<div class="container center-h pb-5 ">
+    <a class="btn btn-block btn-lg btn-success" href="{% url 'restaurante:crearRestaurante' %}">Crea un restaurante nuevo</a>
 </div>
 
 {% endblock %}

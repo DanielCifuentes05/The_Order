@@ -7,6 +7,24 @@
     .space-top {
         margin-top: 70px;
     }
+    .container{
+        display: flex;
+        align-items: start;
+    }
+    .center-h {
+        justify-content: center;
+    }
+    .center-v {
+        align-items: center;}
+
+
+    .rounded{
+        display: block; 
+        margin-left: auto; 
+        margin-right: auto; 
+        padding-bottom: 30px;
+        
+    }
 </style>
 {% endblock %}
 {% block title %}Detalle del Pedido{% endblock %}
@@ -15,26 +33,30 @@
 {% if cart %}
 
 {% for item in cart %}
-<div class="container">
+<div class="container center-v " style="border: 2px solid black; border-radius: 10px;">
     <div class="row space-top">
-        <div class="col-sm-8">
-            <h4>
-                <a href="#">
+        <div class="col-md-7 pb-2">
+            <h2>
+                
                     {{ item.product.nombre }}
-                </a>
-            </h4>
-            
-        </div>
-        <div class="col-sm-8">
+                
+            </h2>
             <h4>
-                <a href="#">
-                    {{ item.product.descripcion }}
-                </a>
+                
+                {{ item.product.descripcion }}
+            
             </h4>
-            <i>Precio unitario: {{ item.price }} $COP</i>
-            <i>Precio total: {{ item.total_price }} $COP</i>
         </div>
+        
         <div class="col">
+            
+            <h4>Cantidad: {{ item.quantity}} </h4>
+        </div>
+        <div class="col" >
+            <h4 style="float: right;">Precio total:</h4>
+            <h4 style="float: right;">{{ item.total_price }} $COP</h4>
+        </div>
+        <div class="col pb-2">
             <a type="button" class="btn btn-danger" href="{% url 'cart:cart_remove' item.product.id %}">Eliminar producto</a>
         </div>
 
@@ -45,18 +67,21 @@
 
 
 {% endfor %}
-<div class="col m-2">
-    <h3>Total Pedido: {{ totalpedido }} $COP</h3>
-</div>
-<div class="row " style="margin-left: 30px;">
-    <div class=" row space-top m-5">
-        <a type="button" class="btn btn-danger" href="{% url 'restaurante:listarProducto' pk=restaurante %}">Seguir Pidiendo</a>
+<div class="container center-h center-v">
+    <div class="col m-2">
+        <h3>Total Pedido: {{ totalpedido }} $COP</h3>
     </div>
-    <div class=" row space-top m-5">
-        <a type="button" class="btn btn-danger" href="{% url 'restaurante:crearOrden' pk=restaurante %}">Confirmar Pedido</a>
+    <div class="row " style="margin-left: 30px;">
+        <div class=" row space-top m-5">
+            <a type="button" class="btn btn-primary" href="{% url 'restaurante:listarProducto' pk=restaurante %}">Seguir Pidiendo</a>
+        </div>
+        <div class=" row space-top m-5">
+            <a type="button" class="btn btn-primary" href="{% url 'restaurante:crearOrden' pk=restaurante %}">Confirmar Pedido</a>
+        </div>
+        
     </div>
-    
 </div>
+
 {% else %}
 <h1>No existen registros de cuentas</h1>
 {% endif %}

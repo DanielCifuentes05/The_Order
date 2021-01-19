@@ -1,24 +1,20 @@
-#https://github.com/Palash51/food/blob/master/cart/cart.py
+#Tomado de : https://github.com/Palash51/food/blob/master/cart/cart.py
 
 from restaurante.models import Producto ,ItemOrden
 
 
 class Cart(object):
     def __init__(self, request):
-        """
-        Initialize the cart.
-        """
+        #Crea el carrito
         self.session = request.session
         cart = self.session.get('cart')
         if not cart:
-            # save an empty cart in the session
+            # Si no existe el carrito, se crea uno nuevo en la sesion
             cart = self.session['cart'] = {}
         self.cart = cart
 
     def add(self, producto, quantity = 1, update_quantity=False):
-        """
-        Add a product to the cart or update its quantity.
-        """
+        #Adiciona un producto en el carrito o actualiza su cantidad
         product_id = str(producto.id)
         if product_id not in self.cart:
             self.cart[product_id] = {'quantity': 0,
@@ -30,7 +26,7 @@ class Cart(object):
         self.save()
 
     def save(self):
-        # update the session cart
+        # Actualiza la sesion del carrito
         self.session['cart'] = self.cart
         # mark the session as "modified" to make sure it is saved
         self.session.modified = True
@@ -43,12 +39,10 @@ class Cart(object):
 
 
     def __iter__(self):
-        """
-        Iterate over the items in the cart and get the products
-        from the database.
-        """
+        
+        #Itera sobre el carrito y obtiene los productos de la base de datos
         product_ids = self.cart.keys()
-        # get the product objects and add them to the cart
+        
         products = Producto.objects.filter(id__in=product_ids)
         for product in products:
             self.cart[str(product.id)]['product'] = product
@@ -59,16 +53,14 @@ class Cart(object):
             yield item
 
     def __len__(self):
-        """
-        Count all items in the cart.
-        """
-        # {% with total_items=cart|length %}
+        #Cuenta los items en el carrito
+        
         return sum(item['quantity'] for item in self.cart.values())
 
     def get_total_price(self):
         return sum(float(item['price']) * item['quantity'] for item in self.cart.values())
 
     def clear(self):
-        # remove cart from session
+        # Elimina el carrito de la sesion 
         del self.session['cart']
         self.session.modified = True

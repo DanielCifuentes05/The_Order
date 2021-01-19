@@ -15,7 +15,7 @@ EMPAQUE = [('IN','Consumir en el sitio'),
 class Restaurante(models.Model):
     nombre = models.CharField(max_length=200)
     descripcion = models.CharField(max_length=300, null = True, blank = True)
-    logo = models.ImageField(upload_to = "logos_restaurantes/", default = "logos_restaurantes/mazda.jpg",  null = True, blank = True)
+    logo = models.ImageField(upload_to = "logos_restaurantes/", default = "logos_restaurantes/hamburger.jpg",  null = True, blank = True)
     user = models.ForeignKey(User ,on_delete = models.CASCADE ,null = True, blank = True)
 
     def __str__(self):

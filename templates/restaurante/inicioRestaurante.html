@@ -6,25 +6,59 @@
     .margin-top {
         margin-top: 40px;
     }
+    .container{
+        display: flex;
+        align-items: start;
+    }
+    .center-h {
+        justify-content: center;
+    }
+    .center-v {
+        align-items: center;
+    }
+    .rounded{
+        display: block; 
+        margin-left: auto; 
+        margin-right: auto; 
+        padding-bottom: 30px;
+        
+    }
+    
+
+    h1,
+    h2,
+    h3,
+    h4 {
+        display: block;
+        font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-weight: 700;
+        margin-left: auto; 
+        margin-right: auto;
+    }
+
+    
 </style>
 {% endblock %}
-{% block title %}Inicio{% endblock %}
+{% block title %}Inicio Restaurante{% endblock %}
 {% block content %}
 
+<div class="container center-h center-v ">
+    <h1 >{{ restaurante.nombre }}</h1>
+</div>
 
-<div class="row margin-top">
-
+<div class="container center-h center-v">
+  
     <img src="{{ restaurante.logo.url }}" class="rounded" width="300">
-    <h2>{{ restaurante.nombre }}</h2>
-
+    
+    
 </div>
 <div class="row margin-top">
     
     <div class="col offset-md-2">
 
-        <figure>
+        <figure style="align-content: center;">
             <figcaption>Ordenes</figcaption>
-            <a href="#">
+            <a href="{% url 'restaurante:listarOrden' pk=restaurante.id %}">
                 <img src="{%static 'images/prestamo.png' %}" class="rounded-circle" width="180" , height="180">
             </a>
         </figure>

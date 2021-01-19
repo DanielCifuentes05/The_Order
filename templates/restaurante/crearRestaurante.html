@@ -12,13 +12,16 @@
         object-fit: cover;
         /* float: left; */
     }
+    .margin-bottom{
+        margin-bottom: 50px;
+    }
 </style>
 {% endblock %}
-{% block title %}Crear Usuario{% endblock %}
+{% block title %}Crear Restaurante{% endblock %}
 {% block content %}
 
-<div class="row">
-
+<div class="col">
+    <h4 class="margin-bottom p-3">Crear un nuevo restaurante</h4>
     <div class="col-md-5 offset-md-1">
         <form method="POST" enctype="multipart/form-data">{% csrf_token %}
 

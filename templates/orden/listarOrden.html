@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extrahead %}
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<style>
+    .space-top {
+        margin-top: 70px;
+    }
+</style>
+{% endblock %}
+{% block title %}Listar Ordenes{% endblock %}
+{% block content %}
+
+{% if object_list %}
+
+{% for item in object_list %}
+<div class="container" style="border: 2px solid black; border-radius: 10px;">
+    <div class="row space-top">
+        <div class="col-sm-8">
+            <h4>
+                   Orden N°: {{ item.id }}
+            </h4>
+            
+        </div>
+        <div class="col-sm-8">
+            <h4>
+                   Cliente : {{ item.nombre }}
+            </h4>
+            
+        </div>
+        <div class="col-sm-8">
+            <h4>
+                
+                   {% if item.empaque == "OU" %}
+                   Empaque : Para llevar
+                   {% else %}
+                   Empaque : Para comer en local
+                   {% endif %} 
+            </h4>
+            
+        </div>
+        <div class="col-sm-8">
+            <h4>
+                
+                   Observaciones del cliente : {{ item.observaciones }}
+                
+            </h4>
+            
+        </div>
+        <div class="col-sm-8">
+            <h4>
+                {% if item.status == "ESPR" %}
+                   Status del pedido : En Espera
+                {% elif item.status == "PREP" %} 
+                   Status del pedido : En Preparacion
+                {% else %}
+                Status del pedido : Pedido Listo
+                {% endif %} 
+            </h4>
+            
+        </div>
+        
+        <div class="col-sm-8">
+            <h5>Productos Pedidos</h5>
+            
+            <ul>
+                {% for item_orden in item.itemorden_set.all %}
+                
+                    <li>Producto : {{item_orden.producto.nombre}} | Cantidad : {{item_orden.cantidad}} | Valor total : {{item_orden.valor_total}}$COP</li>
+                
+                {% endfor %}
+            </ul>
+        </div>
+        <div class= "col" >
+            <div class="col-sm-8">
+                <h4>
+                    <a href="#">
+                       Valor Total : {{ item.valor }}$COP
+                    </a>
+                </h4>
+                
+            </div> 
+            <div class="col-sm-8 pb-4">
+                {% if item.status == "ESPR" %}
+                <a type="button" class="btn btn-danger" href="{% url 'restaurante:statusOrden' item.id %}">Iniciar Preparacion</a>
+                {% elif item.status == "PREP" %}
+                <a type="button" class="btn btn-danger" href="{% url 'restaurante:statusOrden' item.id %}">Pedido Listo</a>
+                {% endif %}
+            </div>
+                
+            
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+{% endfor %}
+
+{% else %}
+<h1>No existen registros de cuentas</h1>
+{% endif %}
+
+
+{% endblock %}

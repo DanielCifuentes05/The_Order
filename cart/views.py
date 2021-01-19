@@ -1,4 +1,5 @@
 from django.shortcuts import render
+#Tomado de : https://github.com/Palash51/food/blob/master/cart/cart.py
 
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
